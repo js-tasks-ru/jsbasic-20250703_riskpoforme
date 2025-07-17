@@ -13,4 +13,5 @@ function getMinMax(str) {
     min: Math.min(...numArr),
     max: Math.max(...numArr)
   };
+
 }
