@@ -1,3 +1,9 @@
 function filterRange(arr, a, b) {
-  // ваш код...
+	let res = []
+	for (item of arr) {
+		if (+item >= a && +item <= b) {
+			res.push(item)
+		}
+	}
+	return res
 }
