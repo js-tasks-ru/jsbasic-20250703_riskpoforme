@@ -1,7 +1,4 @@
 function namify(users) {
-	const obj = []
-	for (let user of users) {
-		obj.push(user.name)
-	}
-	return obj
+	let res = users.map(item => item.name)
+	return res
 }
