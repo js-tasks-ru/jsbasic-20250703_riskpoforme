@@ -1,4 +1,4 @@
-import createElement from '../../assets/lib/create-element.js';
+import createElement from "../../assets/lib/create-element.js";
 
 export default class Carousel {
   elem = null;
@@ -6,6 +6,7 @@ export default class Carousel {
   constructor(slides) {
     this.slides = slides;
     this.#render();
+    this.#initCarousel();
     this.#onCarouselBtnClick();
   }
 
@@ -19,9 +20,13 @@ export default class Carousel {
           <img src="/assets/images/icons/angle-left-icon.svg" alt="icon">
         </div>
         <div class="carousel__inner">
-          ${this.slides.map(slide => `
+          ${this.slides
+            .map(
+              (slide) => `
             <div class="carousel__slide" data-id="${slide.id}">
-              <img src="/assets/images/carousel/${slide.image}" class="carousel__img" alt="slide">
+              <img src="/assets/images/carousel/${
+                slide.image
+              }" class="carousel__img" alt="slide">
               <div class="carousel__caption">
                 <span class="carousel__price">€${slide.price.toFixed(2)}</span>
                 <div class="carousel__title">${slide.name}</div>
@@ -30,7 +35,9 @@ export default class Carousel {
                 </button>
               </div>
             </div>
-          `).join('')}
+          `
+            )
+            .join("")}
         </div>
       </div>
     `;
@@ -41,57 +48,55 @@ export default class Carousel {
   }
 
   #initCarousel() {
-    const leftArrow = this.elem.querySelector('.carousel__arrow_left');
-    const rightArrow = this.elem.querySelector('.carousel__arrow_right');
-    const carouselInner = this.elem.querySelector('.carousel__inner');
-    const carouselWidth = this.elem.querySelector('.carousel__slide').offsetWidth;
+    const leftArrow = this.elem.querySelector(".carousel__arrow_left");
+    const rightArrow = this.elem.querySelector(".carousel__arrow_right");
+    const carouselInner = this.elem.querySelector(".carousel__inner");
     const SLIDES_COUNT = this.slides.length;
-  
+
     let offset = 0;
-    leftArrow.style.display = 'none';
-  
-    rightArrow.addEventListener('click', () => {
+    leftArrow.style.display = "none";
+    carouselInner.style.transform = `translateX(${offset}px)`;
+
+    rightArrow.addEventListener("click", () => {
+      const carouselWidth =
+        this.elem.querySelector(".carousel__slide").offsetWidth;
       offset -= carouselWidth;
       carouselInner.style.transform = `translateX(${offset}px)`;
       if (offset === -((SLIDES_COUNT - 1) * carouselWidth)) {
-        rightArrow.style.display = 'none';
+        rightArrow.style.display = "none";
       } else {
-        leftArrow.style.display = '';
+        leftArrow.style.display = "";
       }
     });
-  
-    leftArrow.addEventListener('click', () => {
+
+    leftArrow.addEventListener("click", () => {
+      const carouselWidth =
+        this.elem.querySelector(".carousel__slide").offsetWidth;
       offset += carouselWidth;
       carouselInner.style.transform = `translateX(${offset}px)`;
-  
+
       if (offset === 0) {
-        leftArrow.style.display = 'none';
+        leftArrow.style.display = "none";
       } else {
-        rightArrow.style.display = '';
+        rightArrow.style.display = "";
       }
     });
   }
 
   #onCarouselBtnClick() {
-    this.elem.addEventListener('click', event => {
-      const btn = event.target.closest('.carousel__button');
+    this.elem.addEventListener("click", (event) => {
+      const btn = event.target.closest(".carousel__button");
       if (!btn) return;
 
-      const slide = btn.closest('.carousel__slide');
+      const slide = btn.closest(".carousel__slide");
       const productId = slide.dataset.id;
 
-      const productAddEvent = new CustomEvent('product-add', {
+      const productAddEvent = new CustomEvent("product-add", {
         detail: productId,
-        bubbles: true
+        bubbles: true,
       });
 
       this.elem.dispatchEvent(productAddEvent);
     });
   }
-
-  mount(container) {
-    container.append(this.elem);
-    this.#initCarousel();
-  }
-
 }
