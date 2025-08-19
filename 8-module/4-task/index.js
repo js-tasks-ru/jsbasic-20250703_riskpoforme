@@ -124,7 +124,6 @@ export default class Cart {
     this.modal.setBody(modalBody);
     this.modal.open();
 
-    // Обработчик кликов на кнопках +/-
     modalBody.addEventListener("click", (event) => {
       const btn = event.target.closest(".cart-counter__button");
       if (!btn) return;
@@ -196,8 +195,6 @@ export default class Cart {
       method: "POST",
       body: formData,
     });
-
-    await response.json();
 
     this.cartItems = [];
     this.cartIcon.update(this);
