@@ -2,6 +2,7 @@ import CartIcon from "./index.js";
 import createElement from "../../assets/lib/create-element.js";
 
 describe("8-module-1-task", () => {
+
   let cartIcon;
 
   let cart;
@@ -117,6 +118,7 @@ describe("8-module-1-task", () => {
       "isEmpty",
       "getTotalCount",
       "getTotalPrice",
+
     ]);
 
     cartIcon = new CartIcon();
@@ -124,6 +126,7 @@ describe("8-module-1-task", () => {
     document.body
       .querySelector("[data-cart-icon-holder]")
       .append(cartIcon.elem);
+
   });
 
   afterEach(() => {
@@ -132,6 +135,7 @@ describe("8-module-1-task", () => {
   });
 
   describe("если корзина не пустая", () => {
+
     let cartIconElement;
 
     beforeEach(() => {
@@ -147,11 +151,13 @@ describe("8-module-1-task", () => {
       let isCartIconVisible =
         cartIcon.elem.classList.contains("cart-icon_visible");
 
+
       expect(isCartIconVisible).toBe(true);
     });
 
     describe("если пользователь прокрутил до конца страницы ", () => {
       describe("ecли вокруг основного контейнера есть место для иконки", () => {
+
         beforeEach(() => {
           viewport.set(1920, 1080);
 
@@ -163,6 +169,7 @@ describe("8-module-1-task", () => {
         it("иконка должна быть спозиционирована фиксированно", (done) => {
           setTimeout(() => {
             expect(getComputedStyle(cartIcon.elem).position).toBe("fixed");
+
 
             done();
           }, 100);
@@ -187,6 +194,7 @@ describe("8-module-1-task", () => {
       });
 
       describe("ecли вокруг основного контейнера нет места для иконки", () => {
+
         beforeEach(() => {
           viewport.set(990, 1080);
 
@@ -198,6 +206,7 @@ describe("8-module-1-task", () => {
         it("иконка должна быть спозиционирована фиксированно", (done) => {
           setTimeout(() => {
             expect(getComputedStyle(cartIcon.elem).position).toBe("fixed");
+
 
             done();
           }, 100);
@@ -213,6 +222,7 @@ describe("8-module-1-task", () => {
               cartIcon.elem.offsetWidth -
               10;
 
+
             expect(`${actualLeftIndent}px`).toBe(`${expectedLeftIndent}px`);
 
             done();
@@ -223,6 +233,7 @@ describe("8-module-1-task", () => {
   });
 
   describe("если корзина пустая", () => {
+
     let cartIconElement;
 
     beforeEach(() => {
@@ -231,16 +242,18 @@ describe("8-module-1-task", () => {
       cart.getTotalPrice.and.returnValue(0);
       cartIconElement = document.body.querySelector(".cart-icon");
 
+
       cartIcon.update(cart);
     });
 
-    it("иконка корзины должна быть скрыта", () => {
+
+    it('иконка корзины должна быть скрыта', () => {
       cartIcon.update(cart);
 
-      let isCartIconVisible =
-        cartIconElement.classList.contains("cart-icon_visible");
+      let isCartIconVisible = cartIconElement.classList.contains('cart-icon_visible');
 
       expect(isCartIconVisible).toBe(false);
     });
+
   });
 });

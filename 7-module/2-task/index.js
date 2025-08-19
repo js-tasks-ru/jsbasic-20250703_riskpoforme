@@ -62,5 +62,4 @@ export default class Modal {
 
   #render() {
     this.elem = createElement(this.#html());
-  }
 }

@@ -1,6 +1,7 @@
 export default class Cart {
   cartItems = [];
 
+
   constructor(cartIcon) {
     this.cartIcon = cartIcon;
   }
@@ -51,3 +52,4 @@ export default class Cart {
     this.cartIcon.update(this);
   }
 }
+

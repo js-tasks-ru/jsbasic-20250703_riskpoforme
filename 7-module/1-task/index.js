@@ -87,5 +87,4 @@ export default class RibbonMenu {
         bubbles: true
       }));
     });
-  }
 }

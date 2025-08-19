@@ -42,5 +42,6 @@ updateFilter(newFilters) {
         </div>
       </div>
     `);
+
   }
 }
