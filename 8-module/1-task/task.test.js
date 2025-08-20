@@ -1,7 +1,8 @@
-import CartIcon from './index.js';
-import createElement from '../../assets/lib/create-element.js';
+import CartIcon from "./index.js";
+import createElement from "../../assets/lib/create-element.js";
 
-describe('8-module-1-task', () => {
+describe("8-module-1-task", () => {
+
   let cartIcon;
 
   let cart;
@@ -113,15 +114,19 @@ describe('8-module-1-task', () => {
     document.body.append(styleElement);
     document.body.append(mainElements);
 
-    cart = jasmine.createSpyObj('cart', [
-      'isEmpty',
-      'getTotalCount',
-      'getTotalPrice',
+    cart = jasmine.createSpyObj("cart", [
+      "isEmpty",
+      "getTotalCount",
+      "getTotalPrice",
+
     ]);
 
     cartIcon = new CartIcon();
 
-    document.body.querySelector('[data-cart-icon-holder]').append(cartIcon.elem);
+    document.body
+      .querySelector("[data-cart-icon-holder]")
+      .append(cartIcon.elem);
+
   });
 
   afterEach(() => {
@@ -129,27 +134,30 @@ describe('8-module-1-task', () => {
     styleElement.remove();
   });
 
-  describe('если корзина не пустая', () => {
+  describe("если корзина не пустая", () => {
+
     let cartIconElement;
 
     beforeEach(() => {
       cart.isEmpty.and.returnValue(false);
       cart.getTotalCount.and.returnValue(10);
       cart.getTotalPrice.and.returnValue(100);
-      cartIconElement = document.body.querySelector('.cart-icon');
+      cartIconElement = document.body.querySelector(".cart-icon");
     });
 
-    it('иконка корзины должна быть видимой на странице', () => {
+    it("иконка корзины должна быть видимой на странице", () => {
       cartIcon.update(cart);
 
-      let isCartIconVisible = cartIcon.elem.classList.contains('cart-icon_visible');
+      let isCartIconVisible =
+        cartIcon.elem.classList.contains("cart-icon_visible");
+
 
       expect(isCartIconVisible).toBe(true);
     });
 
-    describe('если пользователь прокрутил до конца страницы ', () => {
+    describe("если пользователь прокрутил до конца страницы ", () => {
+      describe("ecли вокруг основного контейнера есть место для иконки", () => {
 
-      describe('ecли вокруг основного контейнера есть место для иконки', () => {
         beforeEach(() => {
           viewport.set(1920, 1080);
 
@@ -158,18 +166,25 @@ describe('8-module-1-task', () => {
           window.scrollTo(0, document.documentElement.scrollHeight);
         });
 
-        it('иконка должна быть спозиционирована фиксированно', (done) => {
+        it("иконка должна быть спозиционирована фиксированно", (done) => {
           setTimeout(() => {
-            expect(getComputedStyle(cartIcon.elem).position).toBe('fixed');
+            expect(getComputedStyle(cartIcon.elem).position).toBe("fixed");
+
 
             done();
           }, 100);
         });
 
-        it('иконка должна смещаться на 20px правее от первого элемент в документе с классом `container`', (done) => {
+        it("иконка должна смещаться на 20px правее от первого элемент в документе с классом `container`", (done) => {
           setTimeout(() => {
-            let actualLeftIndent = Math.round(cartIcon.elem.getBoundingClientRect().left);
-            let expectedLeftIndent = Math.round(document.querySelector('.container').getBoundingClientRect().right) + 20;
+            let actualLeftIndent = Math.round(
+              cartIcon.elem.getBoundingClientRect().left
+            );
+            let expectedLeftIndent =
+              Math.round(
+                document.querySelector(".container").getBoundingClientRect()
+                  .right
+              ) + 20;
 
             expect(`${actualLeftIndent}px`).toBe(`${expectedLeftIndent}px`);
 
@@ -178,7 +193,8 @@ describe('8-module-1-task', () => {
         });
       });
 
-      describe('ecли вокруг основного контейнера нет места для иконки', () => {
+      describe("ecли вокруг основного контейнера нет места для иконки", () => {
+
         beforeEach(() => {
           viewport.set(990, 1080);
 
@@ -187,19 +203,25 @@ describe('8-module-1-task', () => {
           window.scrollTo(0, document.documentElement.scrollHeight);
         });
 
-        it('иконка должна быть спозиционирована фиксированно', (done) => {
+        it("иконка должна быть спозиционирована фиксированно", (done) => {
           setTimeout(() => {
-            expect(getComputedStyle(cartIcon.elem).position).toBe('fixed');
+            expect(getComputedStyle(cartIcon.elem).position).toBe("fixed");
+
 
             done();
           }, 100);
         });
 
-        it('иконка должна смещаться на 10px левее главного контейнера', (done) => {
+        it("иконка должна смещаться на 10px левее главного контейнера", (done) => {
           setTimeout(() => {
+            let actualLeftIndent = Math.round(
+              cartIcon.elem.getBoundingClientRect().left
+            );
+            let expectedLeftIndent =
+              document.documentElement.clientWidth -
+              cartIcon.elem.offsetWidth -
+              10;
 
-            let actualLeftIndent = Math.round(cartIcon.elem.getBoundingClientRect().left);
-            let expectedLeftIndent = document.documentElement.clientWidth - cartIcon.elem.offsetWidth - 10;
 
             expect(`${actualLeftIndent}px`).toBe(`${expectedLeftIndent}px`);
 
@@ -207,21 +229,23 @@ describe('8-module-1-task', () => {
           }, 100);
         });
       });
-
     });
   });
 
-  describe('если корзина пустая', () => {
+  describe("если корзина пустая", () => {
+
     let cartIconElement;
 
     beforeEach(() => {
       cart.isEmpty.and.returnValue(true);
       cart.getTotalCount.and.returnValue(0);
       cart.getTotalPrice.and.returnValue(0);
-      cartIconElement = document.body.querySelector('.cart-icon');
+      cartIconElement = document.body.querySelector(".cart-icon");
+
 
       cartIcon.update(cart);
     });
+
 
     it('иконка корзины должна быть скрыта', () => {
       cartIcon.update(cart);
@@ -232,5 +256,4 @@ describe('8-module-1-task', () => {
     });
 
   });
-
 });
